@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="/public/favicons/favicon-32x32.png"> -->
+    <!-- title -->
+    <title>만땅계좌</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <!-- swiper.css -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <!-- style -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- api -->
+    <script defer type="module" src="api/api.js"></script>
+    <!-- JS libraries -->
+    <script defer src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script defer src="js/swiper.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script defer src="js/chart.js"></script>
+    <!-- main js -->
+    <script defer type="module" src="js/main.js"></script>
+</head>
+
+<body>
+    <div class="swiper wrap">
+        <!-- ! article: 애플리케이션, 또는 사이트 안에서 독립적으로 구분해 배포하거나 재사용할 수 있는 구획을 나타냅니다 -->
+        <!-- 지출 관리 -->
+        <article class="popup-container hidden">
+            <div class="popup">
+                <button class="btn btn-close">닫기 X</button>
+                <header>
+                    <h1 class="heading-primary">지출 관리</h1>
+                </header>
+
+                <div class="set-plan">
+                    <div class="set-plan__title-box">
+                        <h2 class="set-plan__title heading-secondary">기준금액설정</h2>
+                        <span class="set-plan__amount">2,100,000원</span>
+                    </div>
+                    <!-- end: set-plan__title-box -->
+                    <div class="limit">
+                        <div class="limit__box">
+                            <div class="limit__gauge"></div>
+                            <div class="limit__mask"></div>
+                        </div>
+                    </div>
+                    <!-- end: limit -->
+                </div>
+                <!-- end: set-plan -->
+
+                <div class="report">
+                    <h2 class="report__title heading-secondary">일간 리포트</h2>
+                    <canvas id="myChart-bar" height="213"></canvas>
+                </div>
+                <!-- end: report -->
+
+                <div class="pattern">
+                    <h2 class="pattern__title heading-secondary">6월 지출</h2>
+                    <canvas id="myChart-donut"></canvas>
+                </div>
+                <!-- end: pattern -->
+            </div>
+            <!-- end: popup -->
+        </article>
+        <!-- end: popup-container -->
+
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- main-container-1 -->
+            <div class="main-container swiper-slide">
+                <!-- header: 유저 profile -->
+                <header>
+                    <div class="profile">
+                        <a href="javascript:void(0)">
+                            <img src="./images/profile.png" alt="사용자 정보와 연결" />
+                        </a>
+                    </div>
+                    <h1 class="header__title">전체계좌</h1>
+                    <div class="heading-secondary">생활비</div>
+                    <div class="header__icon-wrap">
+                        <a href="javascript:void(0)">
+                            <img class="qrcode" src="images/qrcode.svg" alt="QR 코드">
+                        </a>
+                        <a href="javascript:void(0)">
+                            <img class="search" src="images/search.svg" alt="검색">
+                        </a>
+                    </div>
+                </header>
+                <!-- end: header -->
+
+                <!-- account: 계좌 정보 -->
+                <div class="account">
+                    <!-- .account__inner-container -->
+                    <div class="account__inner-container">
+                        <div class="account__number-box">
+                            <!-- js로 할 수 있는 부분 -->
+                            <span class="account__number heading-tertiary">355-673877-78773</span>
+                            <a class="account__text heading-tertiary" href="">이체</a>
+                        </div>
+                        <div class="account__total-box" data-title="생활비">
+                            <!-- JS로 처리 -->
+                            <strong class="account__total-number heading-primary"> 
+                                1,200,000
+                                <span>원</span>
+                            </strong>
+                        </div>
+                        <div class="limit">
+                            <div class="limit__box">
+                                <div class="limit__gauge"></div>
+                                <div class="limit__mask"></div>
+                            </div>
+                            <a href="javascript:void(0)">
+                                <img class="chart-link" src="images/limit-link.svg" alt="지출 차트로 연결" />
+                            </a>
+                            <p class="limit__text">
+                                <span>5</span>일 동안 <span>210,000</span>원 남음
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end: .account__inner-container -->
+                </div>
+                <!-- end: account -->
+                <!-- banner: 광고 -->
+                <article class="banner heading-tertiary">
+                    <p>
+                        지금 낮은 이자로 100만원을 신청하세요!
+                        <a href="javascript:void(0)">Go</a>
+                    </p>
+                </article>
+                <!-- end: banner -->
+                <!-- grab: 리스트, sub계좌 만들기 -->
+                <div class="grab">
+                    <!-- sub계좌 만들기 -->
+                    <div class="save swiperSub">
+                        <ul class="swiper-wrapper">
+                            <li class="save__item-wrap swiper-slide save__item-wrap">
+                                <div class="save__item">
+                                    <div class="save__item-mask">
+                                        <span class="save__item-title heading-quaternary">여행가자!</span>
+                                        <span class="save__item-saving heading-quaternary">
+                                            <span>842,200</span>원
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="save__item-wrap swiper-slide">
+                                <div class="save__item">
+                                    <div class="save__item-mask bg-yellow">
+                                        <span class="save__item-title heading-quaternary">냉장고사기</span>
+                                        <span class="save__item-saving heading-quaternary">
+                                            <span>142,200</span>원
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- 추가 버튼 -->
+                            <li class="save__add swiper-slide">
+                                <span class="material-icons">
+                                    add_circle
+                                </span>
+                                <span>저금통</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 지출,입금 내역 정보 -->
+                    <div class="account-details">
+                        <div class="account-details__recent">
+                            <div class="account-details__recent-top heading-tertiary">
+                                <h3 class="account-details__day">오늘</h3>
+                                <span class="account-details__pay">127,600원 지출</span>
+                            </div>
+
+                            <ul class="account-details__list">
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">미스터피자</span>
+                                    <span class="account-details__in-out">32,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">택시</span>
+                                    <span class="account-details__in-out">4,800</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">이마트</span>
+                                    <span class="account-details__in-out">40,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">스타벅스</span>
+                                    <span class="account-details__in-out">8,200</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">홍길동</span>
+                                    <span class="account-details__in-out">50,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end: account-details__recent -->
+                    </div>
+                    <!-- end: account-details -->
+
+                    <div class="account-details">
+                        <div class="account-details__recent">
+                            <div class="account-details__recent-top heading-tertiary">
+                                <h3 class="account-details__day">어제</h3>
+                                <span class="account-details__pay">217,600원 지출</span>
+                            </div>
+
+                            <ul class="account-details__list">
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">미스터피자</span>
+                                    <span class="account-details__in-out">32,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">택시</span>
+                                    <span class="account-details__in-out">4,800</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">이마트</span>
+                                    <span class="account-details__in-out">40,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">스타벅스</span>
+                                    <span class="account-details__in-out">8,200</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">홍길동</span>
+                                    <span class="account-details__in-out">50,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end: account-details__recent -->
+                    </div>
+                    <!-- end: account-details -->
+                </div>
+                <!-- end: grab -->
+            </div>
+            <!-- end: main-container-1 -->
+
+            <!-- main-container-2 -->
+            <div class="main-container swiper-slide">
+                <!-- header: 유저 profile -->
+                <header>
+                    <div class="profile">
+                        <a href="javascript:void(0)">
+                            <img src="./images/profile_2.png" alt="사용자 정보와 연결" />
+                        </a>
+                    </div>
+                    <h1 class="header__title">전체계좌</h1>
+                    <div class="heading-secondary">의민이 용돈</div>
+                    <div class="header__icon-wrap">
+                        <a href="javascript:void(0)">
+                            <img class="qrcode" src="images/qrcode.svg" alt="QR 코드">
+                        </a>
+                        <a href="javascript:void(0)">
+                            <img class="search" src="images/search.svg" alt="검색">
+                        </a>
+                    </div>
+                </header>
+                <!-- end: header -->
+            
+                <!-- account: 계좌 정보 -->
+                <div class="account">
+                    <!-- .account__inner-container -->
+                    <div class="account__inner-container">
+                        <div class="account__number-box">
+                            <!-- js로 할 수 있는 부분 -->
+                            <span class="account__number heading-tertiary">355-673877-78773</span>
+                            <a class="account__text heading-tertiary" href="">이체</a>
+                        </div>
+                        <div class="account__total-box" data-title="생활비">
+                            <!-- JS로 처리 -->
+                            <strong class="account__total-number heading-primary">
+                                200,000
+                                <span>원</span>
+                            </strong>
+                        </div>
+                        <div class="limit">
+                            <div class="limit__box">
+                                <div class="limit__gauge"></div>
+                                <div class="limit__mask"></div>
+                            </div>
+                            <a href="javascript:void(0)">
+                                <img class="chart-link" src="images/limit-link.svg" alt="지출 차트로 연결" />
+                            </a>
+                            <p class="limit__text">
+                                <span>5</span>일 동안 <span>210,000</span>원 남음
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end: .account__inner-container -->
+                </div>
+                <!-- end: account -->
+                <!-- banner: 광고 -->
+                <article class="banner heading-tertiary">
+                    <p>
+                        지금 낮은 이자로 100만원을 신청하세요!
+                        <a href="javascript:void(0)">Go</a>
+                    </p>
+                </article>
+                <!-- end: banner -->
+                <!-- grab: 리스트, sub계좌 만들기 -->
+                <div class="grab">
+                    <!-- sub계좌 만들기 -->
+                    <div class="save swiperSub">
+                        <ul class="swiper-wrapper">
+                            <li class="save__item-wrap swiper-slide save__item-wrap">
+                                <div class="save__item">
+                                    <div class="save__item-mask">
+                                        <span class="save__item-title heading-quaternary">게임기</span>
+                                        <span class="save__item-saving heading-quaternary">
+                                            <span>322,200</span>원
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="save__item-wrap swiper-slide">
+                                <div class="save__item">
+                                    <div class="save__item-mask bg-yellow">
+                                        <span class="save__item-title heading-quaternary">기부실천</span>
+                                        <span class="save__item-saving heading-quaternary">
+                                            <span>142,200</span>원
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- 추가 버튼 -->
+                            <li class="save__add swiper-slide">
+                                <span class="material-icons">
+                                    add_circle
+                                </span>
+                                <span>저금통</span>
+                            </li>
+                        </ul>
+                    </div>
+            
+                    <!-- 지출,입금 내역 정보 -->
+                    <div class="account-details">
+                        <div class="account-details__recent">
+                            <div class="account-details__recent-top heading-tertiary">
+                                <h3 class="account-details__day">오늘</h3>
+                                <span class="account-details__pay">127,600원 지출</span>
+                            </div>
+            
+                            <ul class="account-details__list">
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">미스터피자</span>
+                                    <span class="account-details__in-out">32,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">택시</span>
+                                    <span class="account-details__in-out">4,800</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">이마트</span>
+                                    <span class="account-details__in-out">40,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">스타벅스</span>
+                                    <span class="account-details__in-out">8,200</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">홍길동</span>
+                                    <span class="account-details__in-out">50,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end: account-details__recent -->
+                    </div>
+                    <!-- end: account-details -->
+            
+                    <div class="account-details">
+                        <div class="account-details__recent">
+                            <div class="account-details__recent-top heading-tertiary">
+                                <h3 class="account-details__day">어제</h3>
+                                <span class="account-details__pay">217,600원 지출</span>
+                            </div>
+            
+                            <ul class="account-details__list">
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">미스터피자</span>
+                                    <span class="account-details__in-out">32,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">택시</span>
+                                    <span class="account-details__in-out">4,800</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">이마트</span>
+                                    <span class="account-details__in-out">40,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">스타벅스</span>
+                                    <span class="account-details__in-out">8,200</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">홍길동</span>
+                                    <span class="account-details__in-out">50,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end: account-details__recent -->
+                    </div>
+                    <!-- end: account-details -->
+                </div>
+                <!-- end: grab -->
+            </div>
+            <!-- end: main-container-2 -->
+
+            <!-- main-container-3 -->
+            <div class="main-container swiper-slide">
+                <!-- header: 유저 profile -->
+                <header>
+                    <div class="profile">
+                        <a href="javascript:void(0)">
+                            <img src="./images/profile_3.png" alt="사용자 정보와 연결" />
+                        </a>
+                    </div>
+                    <h1 class="header__title">전체계좌</h1>
+                    <div class="heading-secondary">할머니 계좌</div>
+                    <div class="header__icon-wrap">
+                        <a href="javascript:void(0)">
+                            <img class="qrcode" src="images/qrcode.svg" alt="QR 코드">
+                        </a>
+                        <a href="javascript:void(0)">
+                            <img class="search" src="images/search.svg" alt="검색">
+                        </a>
+                    </div>
+                </header>
+                <!-- end: header -->
+            
+                <!-- account: 계좌 정보 -->
+                <div class="account">
+                    <!-- .account__inner-container -->
+                    <div class="account__inner-container">
+                        <div class="account__number-box">
+                            <!-- js로 할 수 있는 부분 -->
+                            <span class="account__number heading-tertiary">355-673877-78773</span>
+                            <a class="account__text heading-tertiary" href="">이체</a>
+                        </div>
+                        <div class="account__total-box" data-title="생활비">
+                            <!-- JS로 처리 -->
+                            <strong class="account__total-number heading-primary">
+                                3,200,000
+                                <span>원</span>
+                            </strong>
+                        </div>
+                        <div class="limit">
+                            <div class="limit__box">
+                                <div class="limit__gauge"></div>
+                                <div class="limit__mask"></div>
+                            </div>
+                            <a href="javascript:void(0)">
+                                <img class="chart-link" src="images/limit-link.svg" alt="지출 차트로 연결" />
+                            </a>
+                            <p class="limit__text">
+                                <span>5</span>일 동안 <span>210,000</span>원 남음
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end: .account__inner-container -->
+                </div>
+                <!-- end: account -->
+                <!-- banner: 광고 -->
+                <article class="banner heading-tertiary">
+                    <p>
+                        지금 낮은 이자로 100만원을 신청하세요!
+                        <a href="javascript:void(0)">Go</a>
+                    </p>
+                </article>
+                <!-- end: banner -->
+                <!-- grab: 리스트, sub계좌 만들기 -->
+                <div class="grab">
+                    <!-- sub계좌 만들기 -->
+                    <div class="save swiperSub">
+                        <ul class="swiper-wrapper">
+                            <li class="save__item-wrap swiper-slide save__item-wrap">
+                                <div class="save__item">
+                                    <div class="save__item-mask">
+                                        <span class="save__item-title heading-quaternary">모임회비!</span>
+                                        <span class="save__item-saving heading-quaternary">
+                                            <span>652,200</span>원
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="save__item-wrap swiper-slide">
+                                <div class="save__item">
+                                    <div class="save__item-mask bg-yellow">
+                                        <span class="save__item-title heading-quaternary">여행경비</span>
+                                        <span class="save__item-saving heading-quaternary">
+                                            <span>1,992,200</span>원
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- 추가 버튼 -->
+                            <li class="save__add swiper-slide">
+                                <span class="material-icons">
+                                    add_circle
+                                </span>
+                                <span>저금통</span>
+                            </li>
+                        </ul>
+                    </div>
+            
+                    <!-- 지출,입금 내역 정보 -->
+                    <div class="account-details">
+                        <div class="account-details__recent">
+                            <div class="account-details__recent-top heading-tertiary">
+                                <h3 class="account-details__day">오늘</h3>
+                                <span class="account-details__pay">127,600원 지출</span>
+                            </div>
+            
+                            <ul class="account-details__list">
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">미스터피자</span>
+                                    <span class="account-details__in-out">32,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">택시</span>
+                                    <span class="account-details__in-out">4,800</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">이마트</span>
+                                    <span class="account-details__in-out">40,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">스타벅스</span>
+                                    <span class="account-details__in-out">8,200</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">홍길동</span>
+                                    <span class="account-details__in-out">50,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end: account-details__recent -->
+                    </div>
+                    <!-- end: account-details -->
+            
+                    <div class="account-details">
+                        <div class="account-details__recent">
+                            <div class="account-details__recent-top heading-tertiary">
+                                <h3 class="account-details__day">어제</h3>
+                                <span class="account-details__pay">217,600원 지출</span>
+                            </div>
+            
+                            <ul class="account-details__list">
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">미스터피자</span>
+                                    <span class="account-details__in-out">32,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">택시</span>
+                                    <span class="account-details__in-out">4,800</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">이마트</span>
+                                    <span class="account-details__in-out">40,000</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">스타벅스</span>
+                                    <span class="account-details__in-out">8,200</span>
+                                </li>
+                                <li class="account-details__item">
+                                    <span class="account-details__item-title">홍길동</span>
+                                    <span class="account-details__in-out">50,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end: account-details__recent -->
+                    </div>
+                    <!-- end: account-details -->
+                </div>
+                <!-- end: grab -->
+            </div>
+            <!-- end: main-container-3 -->
+
+        </div>
+        <!-- end: swiper-wrapper -->
+        <!-- nav -->
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="javascript:void(0)" class="nav__link"><span class="material-icons">
+                            home
+                        </span></a></li>
+                <li class="nav__item"><a href="javascript:void(0)" class="nav__link"><span class="material-icons">
+                            swap_horiz
+                        </span></a></li>
+                <li class="nav__item"><a href="javascript:void(0)" class="nav__link"><span class="material-icons">
+                            comment
+                        </span></a></li>
+                <li class="nav__item"><a href="javascript:void(0)" class="nav__link"><span class="material-icons">
+                            more_horiz
+                        </span></a></li>
+            </ul>
+        </nav>
+        <!-- end: nav -->
+
+        <!-- swiper button -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <!-- end: wrap -->
+</body>
+
+</html>
