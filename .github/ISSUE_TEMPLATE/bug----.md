@@ -2,7 +2,7 @@
 name: Bug 리포트
 about: 발생한 bug에 대한 설명 그리고 도움 요청
 title: "[BUG]"
-labels: bug
+labels: bug, 개선사항요청/새아이디어
 assignees: ''
 
 ---
